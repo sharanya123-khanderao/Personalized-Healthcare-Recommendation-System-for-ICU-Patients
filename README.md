@@ -1,6 +1,6 @@
 # Personalized-Healthcare-Recommendation-System-for-ICU-Patients
 
-Introduction 
+
 Intensive Care Units (ICUs) are critical healthcare environments where patients with severe
 or life-threatening conditions receive specialized care. ICU patients often have complex
 medical histories and require highly personalized treatment plans. However, the vast amount
