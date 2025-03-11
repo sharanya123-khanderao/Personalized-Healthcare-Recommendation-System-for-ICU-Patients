@@ -23,4 +23,4 @@ they become critical.
 The ultimate goal of this project is to assist healthcare providers in making informed, timely,
 and personalized treatment decisions, ultimately improving patient outcomes and reducing
 the burden on ICU resources
-Dataset Link: https://www.kaggle.com/datasets/khanderaosharanya/mimic-3
+Dataset Link: https://www.kaggle.com/datasets/bilal1907/mimic-iii-10k/data
