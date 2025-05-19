@@ -1,70 +1,90 @@
 # Personalized-Healthcare-Recommendation-System-for-ICU-Patients
 
-## Project Overview
-Intensive Care Units (ICUs) are critical healthcare environments where patients with severe
-or life-threatening conditions receive specialized care. ICU patients often have complex
-medical histories and require highly personalized treatment plans. However, the vast amount
-of data generated in ICUs—ranging from structured data like lab results and vitals to
-unstructured data like clinical notes—poses a significant challenge for healthcare providers.
-Analyzing this data manually is time-consuming and error-prone, often leading to delayed or
-suboptimal treatment decisions.
-To address this challenge, we propose a Personalized Healthcare Recommendation System
-for ICU Patients. This system leverages the MIMIC-III dataset, a comprehensive
-collection of de-identified ICU patient records.
-By combining machine learning, natural language processing (NLP),
- the system aims to:
-1. Predict patient Admission by analyzing vital signs, lab results, and medical
-history.
-2. Predict Length of Stay if patient is admitted.
-3. Classify patients into risk levels (low, medium, high) to prioritize critical cases and
-optimize resource allocation.
-4. Extract insights from clinical notes using advanced NLP techniques to uncover
-hidden patterns and improve decision-making.
-
-The ultimate goal of this project is to assist healthcare providers in making informed, timely,
-and personalized treatment decisions, ultimately improving patient outcomes and reducing
-the burden on ICU resources
-Dataset Link: https://www.kaggle.com/datasets/bilal1907/mimic-iii-10k/data
-
-
-##  Objectives
-- Predict ICU Admission Status using vital signs, lab results, and demographic features.
-- Predict Length of Stay (LOS) for admitted patients using regression models.
-- Clean and preprocess raw clinical notes
-- Use TF-IDF to convert notes into numerical features
-- Train multiple models to classify risk
-- Evaluate the model's performance with metrics like Accuracy, F1 Score, and ROC-AUC
+A machine learning-based clinical decision support tool for predicting ICU admission, estimating patient length of stay, and classifying patient risk levels based on MIMIC-III data.
 
 ---
 
-##  Dataset
-- **Source**: MIMIC-III (NOTEEVENTS.csv, ADMISSIONS.csv)
-- **Target Variable**: `HOSPITAL_EXPIRE_FLAG`
-- **Number of Categories**: 2 → `0` (Survived), `1` (Expired)
+## Project Description
+
+This project aims to support ICU triage and planning by using both structured and unstructured data to:
+
+- Predict whether a patient will be admitted (classification)
+- Estimate length of ICU stay (regression)
+- Classify admitted patients into Low/Medium/High risk categories
+- Perform clustering on clinical notes to extract thematic groupings
+
+Built using real-world ICU data from the **MIMIC-III 10k** dataset and deployed via a **Streamlit web app**.
 
 ---
 
-##  Models Tested
-| Model               | Accuracy | Precision | Recall | F1 Score | AUC-ROC |
-|--------------------|----------|-----------|--------|----------|---------|
-| Logistic Regression| 76.2%    | 0.71      | 0.68   | 0.69     | 0.74    |
-| Random Forest      | 82.5%    | 0.79      | 0.77   | 0.78     | 0.84    |
-| XGBoost            | 85.3%    | 0.82      | 0.80   | 0.81     | 0.87    |
+## Dataset
 
->  **Best Model: XGBoost** — It achieved the highest accuracy and AUC-ROC. 
+- **Name**: [MIMIC-III 10k Subset](https://www.kaggle.com/datasets/bilal1907/mimic-iii-10k)
+- **Source**: MIT Lab for Computational Physiology (via PhysioNet / Kaggle)
+- **Records**: 10,000 ICU patients
+- **Features**: Vitals, demographics, diagnoses, clinical notes
 
 ---
 
-## Why Did XGBoost Perform Best?
-- Uses **gradient boosting** to reduce model error sequentially
-- Handles **imbalanced datasets** better using `scale_pos_weight`
-- Efficient for high-dimensional, sparse clinical data
+## ML Models Used
+
+| Model              | Use Case                  | Type           |
+|-------------------|---------------------------|----------------|
+| Logistic Regression | Admission (baseline)      | Classification |
+| Random Forest      | Admission, LOS             | Classification & Regression |
+| XGBoost            | Admission (comparative)    | Classification |
+| KMeans + TF-IDF    | NLP Clustering (Notes)     | Unsupervised   |
 
 ---
 
-##  Key Insights
-- Text preprocessing (cleaning, TF-IDF) is crucial for working with clinical data
-- Logistic Regression is interpretable but limited in complexity
-- Ensemble models like XGBoost better capture patient mortality risk patterns
+## Evaluation Summary
+
+- **Best Model**: Random Forest  
+- **Accuracy**: 81%  
+- **F1-Score**: 0.82  
+- **ROC AUC**: 0.863  
+- **Validation**: 10-Fold Cross-Validation + 20% Hold-Out Test
 
 ---
+
+## Risk Stratification Logic
+
+- Low Risk: Probability < 0.4  
+- Medium Risk: 0.4 ≤ p < 0.7  
+- High Risk: p ≥ 0.7
+
+---
+
+## NLP Pipeline
+
+- **Text Source**: NOTEEVENTS.csv  
+- **Pipeline**: Text cleaning → TF-IDF → Truncated SVD → KMeans (k=5)  
+- **Goal**: Cluster clinical notes to uncover thematic patterns among ICU patients
+
+---
+
+## Web App
+
+A Streamlit-based interface for real-time predictions:
+
+- Enter vitals, demographics, and diagnoses
+- Get predictions for:
+  - Admission status
+  - Estimated ICU stay duration
+  - Risk level classification
+---
+
+## References
+
+1. Johnson, A.E.W. et al. (2016). MIMIC-III Database. Scientific Data. [Link](https://physionet.org/content/mimiciii/1.4/)
+2. Kaggle Dataset: [MIMIC-III 10k Subset](https://www.kaggle.com/datasets/bilal1907/mimic-iii-10k)
+3. Rajkomar, A. et al. (2019). Machine Learning in Medicine. NEJM.
+4. Frontiers in Public Health (2022). ICU Risk Prediction Using ML & EHR
+
+---
+
+## How to Run the App
+
+```bash
+pip install -r requirements.txt
+streamlit run app/app.py
