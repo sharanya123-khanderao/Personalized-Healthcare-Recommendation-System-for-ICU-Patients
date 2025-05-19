@@ -57,7 +57,6 @@ Dataset Link: https://www.kaggle.com/datasets/bilal1907/mimic-iii-10k/data
 
 ## Why Did XGBoost Perform Best?
 - Uses **gradient boosting** to reduce model error sequentially
-- Incorporates **L1/L2 regularization** to reduce overfitting
 - Handles **imbalanced datasets** better using `scale_pos_weight`
 - Efficient for high-dimensional, sparse clinical data
 
