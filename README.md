@@ -89,6 +89,7 @@ A Streamlit-based interface for real-time predictions:
 pip install -r requirements.txt
 streamlit run app/app.py
 
-![image](https://github.com/user-attachments/assets/8a7c3d06-29ce-4d4f-bfe5-00353200603f)
+
+
 
 
